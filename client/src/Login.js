@@ -24,8 +24,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-  },
-  paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
@@ -89,7 +87,7 @@ const Login = (props) => {
 
           <Grid container justify="center">
             <Grid item sm={8} md={8}>
-              <Typography component="div" variant="h4">
+              <Typography component="div" variant="h4" align="left" color="textPrimary">
                 <Box fontWeight={600} component="p">
                   Welcome back!
                 </Box>
