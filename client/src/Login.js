@@ -10,6 +10,7 @@ import {
   TextField,
   Paper,
   CssBaseline,
+  InputAdornment,
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { login } from "./store/utils/thunkCreators";
@@ -117,7 +118,16 @@ const Login = (props) => {
                     name="password"
                     margin="normal"
                     InputLabelProps={{shrink: true}}
-                    InputProps={{style: {marginTop: '2rem'}}}
+                    InputProps={{
+                      style: {marginTop: '2rem'},
+                      endAdornment: (
+                        <InputAdornment>
+                          <Button color="primary">
+                            Forgot?
+                          </Button>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </FormControl>
 

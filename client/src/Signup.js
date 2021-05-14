@@ -102,7 +102,7 @@ const Signup = (props) => {
                 </Box>
               </Typography>
 
-              <form className={classes.form} onSubmit={handleRegister} noValidate>
+              <form className={classes.form} onSubmit={handleRegister}>
 
                 <FormControl fullWidth required margin="normal">
                   <TextField
