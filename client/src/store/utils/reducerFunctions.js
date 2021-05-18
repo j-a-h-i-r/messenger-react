@@ -6,7 +6,7 @@ export const addMessageToStore = (state, payload) => {
       id: message.conversationId,
       otherUser: sender,
       messages: [message],
-      unreadCount: fromOutside? 1: 0,
+      unreadMessageCount: fromOutside? 1: 0,
     };
     newConvo.latestMessageText = message.text;
     return [newConvo, ...state];
@@ -18,7 +18,7 @@ export const addMessageToStore = (state, payload) => {
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
       if (fromOutside) {
-        convoCopy.unreadCount = (convoCopy.unreadCount || 0) + 1;
+        convoCopy.unreadMessageCount = (convoCopy.unreadMessageCount || 0) + 1;
       }
 
       return convoCopy;
@@ -33,7 +33,7 @@ export const clearUnreadCount = (state, conversationId) => {
     if (convo.id === conversationId) {
       const convoCopy = {
         ...convo,
-        unreadCount: 0,
+        unreadMessageCount: 0,
       }
       return convoCopy;
     } else {

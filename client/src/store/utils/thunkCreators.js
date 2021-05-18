@@ -116,6 +116,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 export const clearUnreadCount = (conversationId) => async (dispatch) => {
   try {
     // call api to clear unread count in DB
+    const { data } = await axios.patch(`/api/conversations/${conversationId}`);
     dispatch(setUnreadCount(conversationId));
   } catch (error) {
     console.error(error);
