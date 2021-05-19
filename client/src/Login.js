@@ -92,7 +92,7 @@ const Login = (props) => {
                 </Box>
               </Typography>
 
-              <form className={classes.form} onSubmit={handleLogin} noValidate>
+              <form className={classes.form} onSubmit={handleLogin}>
 
                 <FormControl fullWidth required margin="normal">
                   <TextField
