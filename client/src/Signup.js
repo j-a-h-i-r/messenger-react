@@ -38,6 +38,11 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: '1rem 2rem',
+  },
+  headline: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+    fontWeight: 600,
   }
 }));
 
@@ -88,10 +93,8 @@ const Signup = (props) => {
 
           <Grid container justify="center">
             <Grid item sm={8} md={8}>
-              <Typography component="div" variant="h4" align="left" color="textPrimary">
-                <Box fontWeight={600} component="p">
-                  Create an account.
-                </Box>
+              <Typography component="h4" variant="h4" align="left" color="textPrimary" className={classes.headline}>
+                Create an account.
               </Typography>
 
               <form className={classes.form} onSubmit={handleRegister}>
