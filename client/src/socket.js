@@ -10,9 +10,6 @@ const socket = io(window.location.origin, {
   autoConnect: false,
 });
 
-// From: https://socket.io/docs/v4/client-socket-instance/#connect
-// Event handlers should not be registered inside "connect" callback
-
 socket.on("connect", () => {
   console.log("connected to server");
 });
