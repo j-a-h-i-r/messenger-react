@@ -8,9 +8,6 @@ import {
 
 const socket = io(window.location.origin, {
   autoConnect: false,
-  auth: {
-    token: localStorage.getItem("messenger-token"),
-  }
 });
 
 // From: https://socket.io/docs/v4/client-socket-instance/#connect

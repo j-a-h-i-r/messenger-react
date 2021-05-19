@@ -37,7 +37,6 @@ export const register = (credentials) => async (dispatch) => {
     const { data } = await axios.post("/auth/register", credentials);
     await localStorage.setItem("messenger-token", data.token);
 
-    socket.auth.token = data.token;
     socket.connect();
 
     dispatch(gotUser(data));
@@ -53,7 +52,6 @@ export const login = (credentials) => async (dispatch) => {
     const { data } = await axios.post("/auth/login", credentials);
     await localStorage.setItem("messenger-token", data.token);
 
-    socket.auth.token = data.token;
     socket.connect();
 
     dispatch(gotUser(data));
@@ -71,7 +69,6 @@ export const logout = (id) => async (dispatch) => {
     dispatch(gotUser({}));
     socket.emit("logout", id);
 
-    socket.auth.token = "";
     socket.disconnect();
   } catch (error) {
     console.error(error);
