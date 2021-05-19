@@ -52,12 +52,6 @@ const Signup = (props) => {
     const username = event.target.username.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-    // const confirmPassword = event.target.confirmPassword.value;
-
-    // if (password !== confirmPassword) {
-    //   setFormErrorMessage({ confirmPassword: "Passwords must match" });
-    //   return;
-    // }
 
     await register({ username, email, password });
   };
@@ -144,22 +138,6 @@ const Signup = (props) => {
                     {formErrorMessage.confirmPassword}
                   </FormHelperText>
                 </FormControl>
-
-                {/* <FormControl fullWidth required margin="normal" error={!!formErrorMessage.confirmPassword}>
-                  <TextField
-                    placeholder="Confirm password"
-                    label="Confirm Password"
-                    aria-label="confirm password"
-                    type="password"
-                    name="password"
-                    margin="normal"
-                    InputLabelProps={{shrink: true}}
-                    InputProps={{style: {marginTop: '2rem'}}}
-                  />
-                  <FormHelperText>
-                    {formErrorMessage.confirmPassword}
-                  </FormHelperText>
-                </FormControl> */}
 
                 <Grid justify="center" container>
                   <Button
