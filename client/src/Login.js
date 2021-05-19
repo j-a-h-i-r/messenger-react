@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import { login } from "./store/utils/thunkCreators";
-import LeftSide from './LeftSide';
+import AuthLeftSide from './AuthLeftSide';
 import { ShadowButton } from './Button';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +61,7 @@ const Login = (props) => {
   return (
     <Grid container component="main" className={classes.root}>
       <Grid item xs={false} sm={5} md={5}>
-        <LeftSide />
+        <AuthLeftSide />
       </Grid>
 
       <Grid item xs={12} sm={7} md={7} component={Paper} elevation={0} square>
