@@ -9,6 +9,7 @@ require("dotenv").config();
 
 const { app, sessionStore } = require("../app");
 const http = require("http");
+const jwt = require("jsonwebtoken");
 const db = require("../db");
 const onlineUsers = require("../onlineUsers");
 
@@ -30,6 +31,20 @@ const server = http.createServer(app);
  */
 
 const io = require("socket.io")(server);
+
+// Reject connections if there is no token
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+
+  jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
+    console.log(err, decoded);
+    if (err) {
+      return next(new Error("Token not valid"));
+    } else {
+      return next();
+    }
+  });
+});
 
 io.on("connection", (socket) => {
   socket.on("go-online", (id) => {
