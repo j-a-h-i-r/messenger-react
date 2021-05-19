@@ -9,7 +9,6 @@ import {
   FormControl,
   TextField,
   Paper,
-  CssBaseline,
   InputAdornment,
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,7 +60,6 @@ const Login = (props) => {
 
   return (
     <Grid container component="main" className={classes.root}>
-      <CssBaseline />
       <Grid item xs={false} sm={5} md={5}>
         <LeftSide />
       </Grid>
