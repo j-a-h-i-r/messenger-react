@@ -2,7 +2,7 @@
 
 /* Sets up the environment variables from your .env file*/
 require("dotenv").config();
-
+const cookie = require('cookie');
 /**
  * Module dependencies.
  */
@@ -34,7 +34,8 @@ const io = require("socket.io")(server);
 
 // Reject connections if there is no token
 io.use((socket, next) => {
-  const token = extractTokenFromCookie(socket.handshake.headers.cookie);
+  const cookies = cookie.parse(socket.handshake.headers.cookie);
+  const token = cookies['messenger-token'] || '';
 
   jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
     if (err) {
@@ -78,22 +79,6 @@ sessionStore
     server.on("error", onError);
     server.on("listening", onListening);
   });
-
-/**
- * 
- * @param val 
- * @returns 
- */
-function extractTokenFromCookie(cookieString) {
-  const cookies = cookieString.split("; ");
-  for (let cookie of cookies) {
-    const [name, value] = cookie.split("=");
-    if (name === "messenger-token") {
-      return value;
-    }
-  }
-  return '';
-}
 
 /**
  * Normalize a port into a number, string, or false.
