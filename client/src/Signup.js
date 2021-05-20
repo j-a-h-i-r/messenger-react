@@ -9,10 +9,45 @@ import {
   FormControl,
   TextField,
   FormHelperText,
+  Paper,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { register } from "./store/utils/thunkCreators";
+import AuthLeftSide from "./AuthLeftSide";
+import { ShadowButton } from "./Button";
 
-const Login = (props) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  accountCreateSubtitle: {
+    marginRight: '1rem',
+  },
+  button: {
+    padding: '1rem 2rem',
+  },
+  headline: {
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+    fontWeight: 600,
+  }
+}));
+
+const Signup = (props) => {
+  const classes = useStyles();
   const history = useHistory();
   const { user, register } = props;
   const [formErrorMessage, setFormErrorMessage] = useState({});
@@ -22,12 +57,6 @@ const Login = (props) => {
     const username = event.target.username.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-    const confirmPassword = event.target.confirmPassword.value;
-
-    if (password !== confirmPassword) {
-      setFormErrorMessage({ confirmPassword: "Passwords must match" });
-      return;
-    }
 
     await register({ username, email, password });
   };
@@ -37,72 +66,98 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to log in?</Typography>
-          <Button onClick={() => history.push("/login")}>Login</Button>
-        </Grid>
-        <form onSubmit={handleRegister}>
-          <Grid>
-            <Grid>
-              <FormControl>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                  required
-                />
-              </FormControl>
+    <Grid container component="main" className={classes.root}>
+      <Grid item xs={false} sm={5} md={5}>
+        <AuthLeftSide />
+      </Grid>
+
+      <Grid item xs={12} sm={7} md={7} component={Paper} elevation={0} square>
+        <div className={classes.paper}>
+          <Grid container justify="flex-end" alignItems="center">
+            <Grid item>
+              <Typography component="span" color="secondary" className={classes.accountCreateSubtitle}>
+                Already have an account?
+              </Typography>
+
+              <ShadowButton
+                type="button"
+                variant="text"
+                color="primary"
+                onClick={() => history.push("/login")}
+              >
+                Login
+              </ShadowButton>
+
             </Grid>
-            <Grid>
-              <FormControl>
-                <TextField
-                  label="E-mail address"
-                  aria-label="e-mail address"
-                  type="email"
-                  name="email"
-                  required
-                />
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
-                <TextField
-                  aria-label="password"
-                  label="Password"
-                  type="password"
-                  inputProps={{ minLength: 6 }}
-                  name="password"
-                  required
-                />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
-                <TextField
-                  label="Confirm Password"
-                  aria-label="confirm password"
-                  type="password"
-                  inputProps={{ minLength: 6 }}
-                  name="confirmPassword"
-                  required
-                />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Button type="submit" variant="contained" size="large">
-              Create
-            </Button>
           </Grid>
-        </form>
-      </Box>
+
+          <Grid container justify="center">
+            <Grid item sm={8} md={8}>
+              <Typography component="h4" variant="h4" align="left" color="textPrimary" className={classes.headline}>
+                Create an account.
+              </Typography>
+
+              <form className={classes.form} onSubmit={handleRegister}>
+
+                <FormControl fullWidth required margin="normal">
+                  <TextField
+                    aria-label="username"
+                    label="Username"
+                    placeholder="Your username"
+                    name="username"
+                    type="text"
+                    margin="normal"
+                    InputLabelProps={{shrink: true}}
+                    InputProps={{style: {marginTop: '2rem'}}}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth required margin="normal">
+                  <TextField
+                    aria-label="email"
+                    label="E-mail address"
+                    placeholder="Your email"
+                    name="email"
+                    type="text"
+                    margin="normal"
+                    InputLabelProps={{shrink: true}}
+                    InputProps={{style: {marginTop: '2rem'}}}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth required margin="normal" error={!!formErrorMessage.confirmPassword}>
+                  <TextField
+                    placeholder="Your password"
+                    label="Password"
+                    aria-label="Password"
+                    type="password"
+                    name="password"
+                    margin="normal"
+                    InputLabelProps={{shrink: true}}
+                    InputProps={{style: {marginTop: '2rem'}}}
+                    inputProps={{ minLength: 6 }}
+                  />
+                  <FormHelperText>
+                    {formErrorMessage.confirmPassword}
+                  </FormHelperText>
+                </FormControl>
+
+                <Grid justify="center" container>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                  >
+                    Create
+                  </Button>
+                </Grid>
+
+              </form>
+            </Grid>
+          </Grid>
+        </div>
+      </Grid>
     </Grid>
   );
 };
@@ -121,4 +176,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
