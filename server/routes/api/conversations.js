@@ -92,6 +92,9 @@ router.patch("/:conversationId", async (req, res, next) => {
       where: {
         conversationId: conversationId,
         isUnread: true,
+        senderId: {
+          [Op.not]: userId,
+        }
       }
     });
 
