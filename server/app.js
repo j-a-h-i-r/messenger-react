@@ -41,6 +41,17 @@ app.use(function (req, res, next) {
   }
 });
 
+// require all request to /api to be authenticated
+app.use("/api", (req, res, next) => {
+  const user = req.user;
+  if (user == null) {
+    return next(createError(401, {
+      message: 'Authentication token not found or invalid',
+    }))
+  }
+  return next();
+})
+
 // require api routes here after I create them
 app.use("/auth", require("./routes/auth"));
 app.use("/api", require("./routes/api"));

@@ -8,9 +8,6 @@ const onlineUsers = require("../../onlineUsers");
 // TODO: for scalability, implement lazy loading
 router.get("/", async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.sendStatus(401);
-    }
     const userId = req.user.id;
     const conversations = await Conversation.findAll({
       where: {
@@ -88,9 +85,7 @@ router.get("/", async (req, res, next) => {
 
 router.patch("/:conversationId", async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.sendStatus(401);
-    }
+    const userId = req.user.id;
     const { conversationId } = req.params;
 
     const updated = await Message.update({ isUnread: false }, {
