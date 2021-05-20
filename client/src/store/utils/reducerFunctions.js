@@ -1,3 +1,17 @@
+export const getInitialConversations = (state) => {
+  return state.map((convo) => {
+    const messagesSorted = [];
+    const { messages } = convo;
+    for (let i=messages.length-1; i>=0; i--) {
+      messagesSorted.push(messages[i]);
+    }
+    return {
+      ...convo,
+      messages: messagesSorted,
+    }
+  })
+}
+
 export const addMessageToStore = (state, payload) => {
   const { message, sender, fromOutside = false } = payload;
   // if sender isn't null, that means the message needs to be put in a brand new convo
