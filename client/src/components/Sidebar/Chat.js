@@ -43,10 +43,7 @@ class Chat extends Component {
         />
         <ChatContent conversation={this.props.conversation} />
         {unreadMessageCount > 0 &&
-          <>
-            <Badge badgeContent={unreadMessageCount} color="primary">
-            </Badge>
-          </>
+          <Badge badgeContent={unreadMessageCount} color="primary" />
         }
       </Box>
     );
