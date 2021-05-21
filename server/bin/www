@@ -79,7 +79,9 @@ io.on("connection", (socket) => {
     if (onlineUsers[id]) {
       const userSocketIds = onlineUsers[id]['socketIds'] || [];
       const socketIndex = userSocketIds.indexOf(socketId);
-      userSocketIds.splice(socketIndex, 1);
+      if (socketIndex >= 0) {
+        userSocketIds.splice(socketIndex, 1);
+      }
 
       if (userSocketIds.length === 0) {
         delete onlineUsers[id];
