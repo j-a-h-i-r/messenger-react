@@ -13,13 +13,14 @@ export const getInitialConversations = (state) => {
 }
 
 export const addMessageToStore = (state, payload) => {
-  const { message, sender } = payload;
+  const { message, sender, fromOutside = false } = payload;
   // if sender isn't null, that means the message needs to be put in a brand new convo
   if (sender !== null) {
     const newConvo = {
       id: message.conversationId,
       otherUser: sender,
       messages: [message],
+      unreadMessageCount: fromOutside? 1: 0,
     };
     newConvo.latestMessageText = message.text;
     return [newConvo, ...state];
@@ -30,6 +31,9 @@ export const addMessageToStore = (state, payload) => {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
+      if (fromOutside) {
+        convoCopy.unreadMessageCount = (convoCopy.unreadMessageCount || 0) + 1;
+      }
 
       return convoCopy;
     } else {
@@ -37,6 +41,20 @@ export const addMessageToStore = (state, payload) => {
     }
   });
 };
+
+export const clearUnreadCount = (state, conversationId) => {
+  return state.map((convo) => {
+    if (convo.id === conversationId) {
+      const convoCopy = {
+        ...convo,
+        unreadMessageCount: 0,
+      }
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  })
+}
 
 export const addOnlineUserToStore = (state, id) => {
   return state.map((convo) => {

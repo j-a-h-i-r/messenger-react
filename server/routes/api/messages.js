@@ -6,9 +6,6 @@ const { Op } = require('sequelize');
 // expects {recipientId, text, conversationId } in body (conversationId will be null if no conversation exists yet)
 router.post("/", async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.sendStatus(401);
-    }
     const senderId = req.user.id;
     const { recipientId, text, conversationId, sender } = req.body;
 

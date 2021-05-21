@@ -8,9 +8,6 @@ const onlineUsers = require("../../onlineUsers");
 // TODO: for scalability, implement lazy loading
 router.get("/", async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.sendStatus(401);
-    }
     const userId = req.user.id;
     const conversations = await Conversation.findAll({
       where: {
@@ -52,6 +49,13 @@ router.get("/", async (req, res, next) => {
       const convo = conversations[i];
       const convoJSON = convo.toJSON();
 
+      const unreadMessageCount = convoJSON.messages.reduce((acc, message) => {
+        if (message.senderId == userId) return acc;
+        return message.isUnread? acc + 1: acc;
+      }, 0);
+
+      convoJSON.unreadMessageCount = unreadMessageCount;
+
       // set a property "otherUser" so that frontend will have easier access
       if (convoJSON.user1) {
         convoJSON.otherUser = convoJSON.user1;
@@ -78,5 +82,27 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.patch("/:conversationId", async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { conversationId } = req.params;
+
+    const updated = await Message.update({ isUnread: false }, {
+      where: {
+        conversationId: conversationId,
+        isUnread: true,
+        senderId: {
+          [Op.not]: userId,
+        }
+      }
+    });
+
+    res.json(updated);
+
+  } catch (error) {
+    next(error);
+  }
+})
 
 module.exports = router;
